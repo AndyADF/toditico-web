@@ -34,5 +34,6 @@ jobs:
           rsync -av --progress . ../sync_dir --exclude .github/workflows
           rsync -av --progress ../sync_dir/ .
           git add .
+          git reset HEAD .github/workflows/   # Remove .github/workflows from the staging area
           git commit -m "Sync with upstream excluding workflows" || echo "No changes to commit"
           git push origin main --force
