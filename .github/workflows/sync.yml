@@ -28,8 +28,11 @@ jobs:
       - name: Fetch upstream changes
         run: git fetch upstream
 
-      - name: Merge upstream changes
-        run: git reset --hard upstream/main
-
-      - name: Push changes
-        run: git push origin main --force
+      - name: Sync upstream changes excluding workflows
+        run: |
+          git checkout upstream/main -- .
+          rsync -av --progress . ../sync_dir --exclude .github/workflows
+          rsync -av --progress ../sync_dir/ .
+          git add .
+          git commit -m "Sync with upstream excluding workflows" || echo "No changes to commit"
+          git push origin main --force
