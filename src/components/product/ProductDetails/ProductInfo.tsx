@@ -1,12 +1,14 @@
 "use client";
-import { Product } from "@/types/shared";
+import { Currency, Product } from "@/types/shared";
 import ProductPrice from "./ProductPrice";
+import ProductCardStatus from "@/components/catalogue/ProductsContainer/ProductCard/ProductStatus";
 
 type Props = {
   product: Product;
+  selectedCurrency: Currency;
 };
 
-export default function ProductInfo({ product }: Props) {
+export default function ProductInfo({ product, selectedCurrency }: Props) {
   // INFO Need to add the kit section and the product status
   return (
     <div className="flex flex-col gap-4">
@@ -15,9 +17,13 @@ export default function ProductInfo({ product }: Props) {
         {product.description && (
           <p className="text-body">{product.description}</p>
         )}
+        <ProductCardStatus productStatus={product.status} />
       </div>
       <hr />
-      <ProductPrice finalPrice={product.sellPrice} />
+      <ProductPrice
+        finalPrice={product.sellPrice}
+        selectedCurrency={selectedCurrency}
+      />
     </div>
   );
 }

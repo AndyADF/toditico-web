@@ -1,6 +1,5 @@
 import { Product } from "@/types/shared";
 import { ClientBaseService } from "./clientBaseService";
-import { stringify } from "qs";
 
 class ClientProductService extends ClientBaseService<Product> {
   constructor() {
@@ -13,13 +12,23 @@ class ClientProductService extends ClientBaseService<Product> {
     );
   };
 
-  getAutocomplete = (text: string, inventory: string) => {
-    const queryParamsOptions = {
-      text,
-      inventory,
-    };
-    const queryParams = stringify(queryParamsOptions, { indices: false });
-    return this.getAll(`autocomplete?${queryParams}`);
+  getAutocomplete = (text: string, currencyId: string, inventoryId: string) => {
+    return this.getAll(
+      `autocomplete?text=${text}&currency=${currencyId}&inventory=${inventoryId}`
+    );
+  };
+
+  filterProducts = (
+    text: string,
+    currencyId: string,
+    inventoryId: string,
+    moduleId: string,
+    page: number,
+    limit: number
+  ) => {
+    return this.getAllPaginated(
+      `filter?text=${text}&currency=${currencyId}&inventory=${inventoryId}&module=${moduleId}&page=${page}&limit=${limit}`
+    );
   };
 }
 

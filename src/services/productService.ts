@@ -1,20 +1,42 @@
-import { Product } from "@/types/shared";
+import { PaginationInfo, Product } from "@/types/shared";
 import { stringify } from "qs";
 import { BaseService } from "./baseService";
 
 class ProductService extends BaseService<Product> {
   constructor() {
-    super("products");
+    super("products/web");
   }
 
   getData = () => {
     return this.getOne();
   };
 
-  getAutocomplete = (text: string, inventoryId: string) => {
+  filterProducts = (
+    text: string,
+    inventoryId: string,
+    currencyId: string,
+    moduleId: string,
+    page: number,
+    limit: number
+  ) => {
     const queryParamsOptions = {
       text,
       inventoryId,
+      currencyId,
+      moduleId,
+      page,
+      limit,
+    };
+    const queryParams = stringify(queryParamsOptions, { indices: false });
+    const url = `/filter?${queryParams}`;
+    return this.instance.get(url).then((result) => result.data);
+  };
+
+  getAutocomplete = (text: string, inventoryId: string, currencyId: string) => {
+    const queryParamsOptions = {
+      text,
+      inventoryId,
+      currencyId,
     };
     const queryParams = stringify(queryParamsOptions, { indices: false });
     const url = `/autocomplete?${queryParams}`;

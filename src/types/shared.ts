@@ -1,7 +1,7 @@
 export type Currency = {
   name: string;
   exchangeFactor: number;
-  _id: string
+  _id: string;
 };
 
 export type Inventory = {
@@ -10,7 +10,7 @@ export type Inventory = {
   address?: string;
   latitude: number;
   longitude: number;
-  _id: string
+  _id: string;
 };
 
 export type Workshop = {
@@ -21,21 +21,28 @@ export type Workshop = {
   longitude?: number;
 };
 
-export type Product = {
+export type ProductStatus = 'AVAILABLE' | 'LOW_STOCK' | 'NOT_AVAILABLE'
+
+export interface Product {
   name: string
   description?: string
   sellPrice: number
-  count: number
-  // modules: PopulatedDoc<Brand & Module>[]
+  finalPrice: number
   code: string
   imageUrl?: string
   secondaryImagesUrls?: string[]
+  discountPercent: number
+  status: ProductStatus
   _id: string
 }
 
 export type Module = {
-  name: string
-  imageUrl?: string
-  _id: string
-}
+  name: string;
+  imageUrl?: string;
+  _id: string;
+};
 
+export type PaginationInfo = {
+  maxPage: number;
+  count: number;
+};
